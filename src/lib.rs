@@ -1,5 +1,8 @@
 use std::{error, fmt, result};
 
+/// Type alias for Result return type, used by this package.
+pub type Result<T> = result::Result<T, Error>;
+
 // Short form to compose Error values.
 //
 // Here are few possible ways:
@@ -52,8 +55,8 @@ macro_rules! err_at {
 /// error location.
 pub enum Error {
     Fatal(String, String),
+    IO(String, String),
     Invalid(String, String),
-    Vk(String, String),
 }
 
 impl fmt::Display for Error {
@@ -62,8 +65,8 @@ impl fmt::Display for Error {
 
         match self {
             Fatal(p, msg) => write!(f, "{} Fatal: {}", p, msg),
+            IO(p, msg) => write!(f, "{} IO: {}", p, msg),
             Invalid(p, msg) => write!(f, "{} Invalid: {}", p, msg),
-            Vk(p, msg) => write!(f, "{} Vk: {}", p, msg),
         }
     }
 }
@@ -76,5 +79,6 @@ impl fmt::Debug for Error {
 
 impl error::Error for Error {}
 
-/// Type alias for Result return type, used by this package.
-pub type Result<T> = result::Result<T, Error>;
+pub mod files;
+
+pub const GIT_DIR: &'static str = ".git";
