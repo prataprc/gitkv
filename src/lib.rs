@@ -80,5 +80,6 @@ impl fmt::Debug for Error {
 impl error::Error for Error {}
 
 pub mod files;
+pub mod kv;
 
 pub const GIT_DIR: &'static str = ".git";
